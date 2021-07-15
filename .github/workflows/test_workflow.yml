@@ -1,0 +1,17 @@
+name: Test Workflow
+
+on:
+  pull_request:
+
+jobs:
+  job-1:
+    runs-on: ubuntu-latest
+    env:
+      BOX_TYPE: cozy
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: command test
+        run: |
+          echo $BOX_TYPE
+          echo {{ env.BOX_TYPE }}

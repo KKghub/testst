@@ -14,4 +14,4 @@ jobs:
       - name: command test
         run: |
           echo $BOX_TYPE
-          echo "{{ env.BOX_TYPE }}"
+          echo ${{ env.BOX_TYPE }}

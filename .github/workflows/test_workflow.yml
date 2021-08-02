@@ -9,6 +9,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        test-cases:
+          - case-1
+          - case-2
         include:
           - x: 1
             y: 2

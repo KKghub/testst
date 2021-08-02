@@ -9,13 +9,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test-cases:
-          - case-1:
-              x: 1
-              y: 2
-          - case-2:
-              x: 3
-              y: 4
+        include:
+          - x: 1
+            y: 2
+          - x: 3
+            y: 4
     env:
       BOX_TYPE: cozy
     steps:
@@ -25,5 +23,5 @@ jobs:
         run: |
           echo $BOX_TYPE
           echo ${{ env.BOX_TYPE }}
-          echo ${{ matrix.test-cases.x }}
-          echo ${{ matrix.test-cases.y }}
+          echo ${{ matrix.x }}
+          echo ${{ matrix.y }}

@@ -9,7 +9,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test-cases:
+        test-cases: [case-1, case-2]
+        include:
           - case-1:
               x: 1
               y: 2
@@ -25,5 +26,5 @@ jobs:
         run: |
           echo $BOX_TYPE
           echo ${{ env.BOX_TYPE }}
-          echo ${{ matrix.test-cases.x }}
-          echo ${{ matrix.test-cases.y }}
+          echo ${{ matrix.x }}
+          echo ${{ matrix.y }}

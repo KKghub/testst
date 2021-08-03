@@ -6,6 +6,11 @@ on:
 jobs:
   job-1:
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+  job-2:
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -20,11 +25,13 @@ jobs:
     env:
       BOX_TYPE: cozy
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      # - name: Checkout
+      #   uses: actions/checkout@v2
       - name: command test
         run: |
           echo $BOX_TYPE
           echo ${{ env.BOX_TYPE }}
           echo ${{ matrix.x }}
           echo ${{ matrix.y }}
+          pwd
+          ls -al

@@ -24,6 +24,7 @@ jobs:
             y: 4
     env:
       BOX_TYPE: cozy
+    needs: job-1
     steps:
       # - name: Checkout
       #   uses: actions/checkout@v2

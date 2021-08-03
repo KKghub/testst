@@ -26,5 +26,5 @@ jobs:
         run: |
           echo $BOX_TYPE
           echo ${{ env.BOX_TYPE }}
-          echo ${{ matrix.x }}
-          echo ${{ matrix.y }}
+          echo ${{ matrix.test-cases.x }}
+          echo ${{ matrix.test-cases.y }}

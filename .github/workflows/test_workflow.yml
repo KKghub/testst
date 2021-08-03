@@ -22,7 +22,7 @@ jobs:
         test-case: [case-1, case-2]
         include:
           - test-case: case-1
-            x: ${{ env.GLOBAL_VAR }}
+            x: 1
             y: 2
           - test-case: case-2
             x: 3
@@ -39,5 +39,6 @@ jobs:
           echo ${{ env.BOX_TYPE }}
           echo ${{ matrix.x }}
           echo ${{ matrix.y }}
+          echo ${{ env.GLOBAL_VAR }}
           pwd
           ls -al

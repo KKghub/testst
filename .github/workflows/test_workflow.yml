@@ -3,12 +3,15 @@ name: Test Workflow
 on:
   pull_request:
 
+env:
+  GLOBAL_VAR: 7
+
 jobs:
   job-1:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: Set Output
+        id: step-1
   job-2:
     runs-on: ubuntu-latest
     strategy:
@@ -17,7 +20,7 @@ jobs:
         test-case: [case-1, case-2]
         include:
           - test-case: case-1
-            x: 1
+            x: ${{ env.GLOBAL_VAR }}
             y: 2
           - test-case: case-2
             x: 3

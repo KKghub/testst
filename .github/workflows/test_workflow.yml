@@ -9,6 +9,8 @@ env:
 jobs:
   job-1:
     runs-on: ubuntu-latest
+    outputs:
+      step-1-outcome: ${{ steps.step-1.outcome }}
     steps:
       - name: Set Output
         id: step-1
@@ -40,6 +42,6 @@ jobs:
           echo ${{ matrix.x }}
           echo ${{ matrix.y }}
           echo ${{ env.GLOBAL_VAR }}
-          echo ${{ needs.job-1.steps.step-1 }}
+          echo ${{ needs.job-1.outcome.step-1-outcome }}
           pwd
           ls -al

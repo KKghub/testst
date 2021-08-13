@@ -46,6 +46,6 @@ jobs:
           echo ${{ matrix.x }}
           echo ${{ matrix.y }}
           echo ${{ env.GLOBAL_VAR }}
-          echo ${{ needs.job-1.outcome }}
+          echo ${{ needs.job-1.status }}
           pwd
           ls -al

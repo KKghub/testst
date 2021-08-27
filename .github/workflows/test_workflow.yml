@@ -26,10 +26,10 @@ jobs:
   job-1:
     runs-on: ubuntu-latest
     needs: setup-matrix
-    strategy:
-      fail-fast: false
-      matrix:
-        test-case: ${{ fromJSON(needs.setup-matrix.outputs.matrix) }}
+    # strategy:
+    #   fail-fast: false
+    #   matrix:
+    #     test-case: ${{ fromJSON(needs.setup-matrix.outputs.matrix) }}
     env:
       BOX_TYPE: cozy
     steps:
@@ -38,6 +38,7 @@ jobs:
       - name: Set Output
         id: step-1
         run: |
+          echo "${{ toJSON(needs.setup-matrix.outputs.matrix) }}"
           if [[ ${{ matrix.test-case }} == "case-1" ]]; then
             EMU=$(echo -e "abc\nxyz")
             for i in $EMU; do

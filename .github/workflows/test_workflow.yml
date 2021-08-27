@@ -26,26 +26,29 @@ jobs:
       - name: Setup matrix combinations
         id: set-matrix
         run: |
-          echo "${{ github.event.inputs.test-case }}"
-          MATRIX_TEST_CASES_ALL=$(jq -c --null-input \
+          INPUT_TEST_CASE=${{ github.event.inputs.test-case }}
+          echo $INPUT_TEST_CASE
+
+          MATRIX_TEST_CASE=$(jq -c --null-input --arg test_case $INPUT_TEST_CASE \
+          '[
+            $test_case
+          ]')
+          
+          
+          MATRIX_TEST_CASE_ALL=$(jq -c --null-input \
           '[
             "case-1",
             "case-2"
           ]')
 
-          echo $MATRIX_TEST_CASES_ALL
-
-          INPUT_TEST_CASE=${{ github.event.inputs.test-case }}
-
-          echo $INPUT_TEST_CASE
+          echo $MATRIX_TEST_CASE_ALL
 
           if [[ $INPUT_TEST_CASE == "all" || $INPUT_TEST_CASE == "" ]]; then
-            echo "::set-output name=matrix::$MATRIX_TEST_CASES_ALL"
+            echo "::set-output name=matrix::$MATRIX_TEST_CASE_ALL"
           else
-            echo "::set-output name=matrix::$INPUT_TEST_CASE"
+            echo "::set-output name=matrix::$MATRIX_TEST_CASE"
           fi
 
-      
   job-1:
     runs-on: ubuntu-latest
     needs: setup-matrix

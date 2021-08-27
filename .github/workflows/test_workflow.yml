@@ -21,28 +21,30 @@ jobs:
       - name: Setup matrix combinations
         id: set-matrix
         run: |
-          INPUT_TEST_CASE=${{ github.event.inputs.test-case }}
-          echo $INPUT_TEST_CASE
-
-          MATRIX_TEST_CASE=$(jq -c --null-input --arg test_case $INPUT_TEST_CASE \
-          '[
-            $test_case
-          ]')
-
-          echo $MATRIX_TEST_CASE
-          
           MATRIX_TEST_CASE_ALL=$(jq -c --null-input \
           '[
             "case-1",
             "case-2"
           ]')
-
+          echo "::Available Test Cases::"
           echo $MATRIX_TEST_CASE_ALL
 
-          if [[ $INPUT_TEST_CASE == "all" || $INPUT_TEST_CASE == "" ]]; then
+          INPUT_TEST_CASE=${{ github.event.inputs.test-case }}
+          echo "Input Test Case: ${INPUT_TEST_CASE:=all}"
+
+          if [[ $INPUT_TEST_CASE == "all" ]]; then
+            echo "Using the matrix: $MATRIX_TEST_CASE_ALL"
             echo "::set-output name=matrix::$MATRIX_TEST_CASE_ALL"
           else
-            echo "::set-output name=matrix::$MATRIX_TEST_CASE"
+            MATRIX_TEST_CASE=$(echo $MATRIX_TEST_CASE_ALL | jq -c --arg test_case "$INPUT_TEST_CASE" '[ .[] | select(.==$test_case) ]')
+            
+            if [[ $(echo $MATRIX_TEST_CASE | jq length) > 0 ]]; then
+              echo "Using the matrix: $MATRIX_TEST_CASE"
+              echo "::set-output name=matrix::$MATRIX_TEST_CASE"
+            else
+              echo "No Input Test Case is valid..."
+              exit 1
+            fi
           fi
 
   job-1:

@@ -20,9 +20,8 @@ jobs:
     steps:
       - name: Setup matrix combinations
         run: |
-          if [[ ${{ github.event.inputs.name }} == "all" ]]; then
-            echo "::set-output name=matrix::[\"case-1\",\"case-2\"]"
-          fi
+          echo "${{ github.event.inputs.name }}"
+          echo "::set-output name=matrix::[\"case-1\",\"case-2\"]"
       
   job-1:
     runs-on: ubuntu-latest

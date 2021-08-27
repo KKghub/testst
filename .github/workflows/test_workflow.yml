@@ -22,6 +22,7 @@ jobs:
         run: |
           if [[ ${{ github.event.inputs.name }} == "all" ]]; then
             echo "::set-output name=matrix::[\"case-1\",\"case-2\"]"
+          fi
       
   job-1:
     runs-on: ubuntu-latest

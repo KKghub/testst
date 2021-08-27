@@ -21,7 +21,7 @@ jobs:
       - name: Setup matrix combinations
         run: |
           echo "${{ github.event.inputs.name }}"
-          echo "::set-output name=matrix::[\"case-1\",\"case-2\"]"
+          echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
       
   job-1:
     runs-on: ubuntu-latest

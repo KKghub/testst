@@ -18,11 +18,24 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
+      - name: Install Dependencies
+        run: |
+          sudo apt update
+          sudo apt install jq
+
       - name: Setup matrix combinations
         id: set-matrix
         run: |
           echo "${{ github.event.inputs.name }}"
-          echo "::set-output name=matrix::[\"case-1\", \"case-2\"]"
+          MATRIX_TEST_CASES_ALL=$(jq -c --null-input \
+          '[
+            "case-1",
+            "case-2"
+          ]')
+
+          echo $MATRIX_TEST_CASES_ALL
+          
+          echo "::set-output name=matrix::$MATRIX_TEST_CASES_ALL"
       
   job-1:
     runs-on: ubuntu-latest

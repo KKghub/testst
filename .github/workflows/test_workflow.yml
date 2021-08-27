@@ -4,7 +4,7 @@ on:
   pull_request:
   workflow_dispatch:
     inputs:
-      name:
+      test-case:
         description: 'Test Cases To Run'
         required: true
         default: all
@@ -26,7 +26,7 @@ jobs:
       - name: Setup matrix combinations
         id: set-matrix
         run: |
-          echo "${{ github.event.inputs.name }}"
+          echo "${{ github.event.inputs.test-case }}"
           MATRIX_TEST_CASES_ALL=$(jq -c --null-input \
           '[
             "case-1",
@@ -35,10 +35,14 @@ jobs:
 
           echo $MATRIX_TEST_CASES_ALL
 
-          if [[ "${{ github.event.inputs.name }}" == "" ]]; then
+          INPUT_TEST_CASE=${{ github.event.inputs.test-case }}
+
+          echo $INPUT_TEST_CASE
+
+          if [[ $INPUT_TEST_CASE == "all" || $INPUT_TEST_CASE == "" ]]; then
             echo "::set-output name=matrix::$MATRIX_TEST_CASES_ALL"
           else
-            echo "::set-output name=matrix::${{ github.event.inputs.name }}"
+            echo "::set-output name=matrix::$INPUT_TEST_CASE"
           fi
 
       

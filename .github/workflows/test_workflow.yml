@@ -34,8 +34,15 @@ jobs:
           ]')
 
           echo $MATRIX_TEST_CASES_ALL
+
+
+          if [[ ${{ github.event.inputs.name }} == "all" || ${{ github.event.inputs.name }} == "" ]]; then
+            echo "::set-output name=matrix::$MATRIX_TEST_CASES_ALL"
+          else
+            echo "::set-output name=matrix::${{ github.event.inputs.name }}"
+          fi
+
           
-          echo "::set-output name=matrix::$MATRIX_TEST_CASES_ALL"
       
   job-1:
     runs-on: ubuntu-latest

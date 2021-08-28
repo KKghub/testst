@@ -29,15 +29,25 @@ jobs:
           echo "::Available Test Cases::"
           echo $MATRIX_TEST_CASE_ALL
 
-          INPUT_TEST_CASE=${{ github.event.inputs.test-case }}
-          echo "Input Test Case: ${INPUT_TEST_CASE:=all}"
+          # if input test case is empty or not provided,
+          # we set "all" as default
+          INPUT_TEST_CASE="${{ github.event.inputs.test-case }}"
+          echo "Input Test Case: \"${INPUT_TEST_CASE:=all}\""
 
           if [[ $INPUT_TEST_CASE == "all" ]]; then
             echo "Using the matrix: $MATRIX_TEST_CASE_ALL"
             echo "::set-output name=matrix::$MATRIX_TEST_CASE_ALL"
           else
-            MATRIX_TEST_CASE=$(echo $MATRIX_TEST_CASE_ALL | jq -c --arg test_case "$INPUT_TEST_CASE" '[ .[] | select(.==$test_case) ]')
-            
+            MATRIX_TEST_CASE=[]
+            for TEST_CASE in $(echo $INPUT_TEST_CASE | sed "s/,/ /g")
+            do
+              IS_TEST_CASE_EXIST=$(echo $MATRIX_TEST_CASE_ALL | jq -c --arg test_case $TEST_CASE 'any(.[]; . == $test_case)')
+              
+              if [[ $IS_TEST_CASE_EXIST == "true" ]]; then
+                MATRIX_TEST_CASE=$(echo $MATRIX_TEST_CASE | jq -c --arg test_case $TEST_CASE '. += [$test_case]')
+              fi
+            done
+
             if [[ $(echo $MATRIX_TEST_CASE | jq length) > 0 ]]; then
               echo "Using the matrix: $MATRIX_TEST_CASE"
               echo "::set-output name=matrix::$MATRIX_TEST_CASE"

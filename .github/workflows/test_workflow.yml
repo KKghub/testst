@@ -67,14 +67,15 @@ jobs:
     env:
       BOX_TYPE: cozy
       TEST_NAME: test-case
-      X-1: 777
+      x: store-id
+      store-id: 777
     steps:
       # - name: Checkout
       #   uses: actions/checkout@v2
       - name: Set Output
         id: step-1
         run: |
-          echo "${{ env.X-1 }}"
+          echo "${{ format('steps.azure-secrets.outputs.{0}', env.x) }}"
           echo "$X-1"
           echo "${{ toJSON(needs.setup-matrix.outputs.matrix) }}"
           if [[ ${{ matrix.test-case }} == "case-1" ]]; then

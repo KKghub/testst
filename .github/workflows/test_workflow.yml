@@ -67,12 +67,15 @@ jobs:
     env:
       BOX_TYPE: cozy
       TEST_NAME: test-case
+      X-1: 777
     steps:
       # - name: Checkout
       #   uses: actions/checkout@v2
       - name: Set Output
         id: step-1
         run: |
+          echo "${{ env.X-1 }}"
+          echo "$X-1"
           echo "${{ toJSON(needs.setup-matrix.outputs.matrix) }}"
           if [[ ${{ matrix.test-case }} == "case-1" ]]; then
             EMU=$(echo -e "abc\nxyz")

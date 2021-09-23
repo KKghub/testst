@@ -66,6 +66,7 @@ jobs:
         test-case: ${{ fromJSON(needs.setup-matrix.outputs.matrix) }}
     env:
       BOX_TYPE: cozy
+      TEST_NAME: test-case
     steps:
       # - name: Checkout
       #   uses: actions/checkout@v2
@@ -73,6 +74,7 @@ jobs:
         id: step-1
         run: |
           echo "${{ toJSON(needs.setup-matrix.outputs.matrix) }}"
+          echo "${{ matrix.${{ env.TEST_NAME }} }}"
           if [[ ${{ matrix.test-case }} == "case-1" ]]; then
             EMU=$(echo -e "abc\nxyz")
             for i in $EMU; do

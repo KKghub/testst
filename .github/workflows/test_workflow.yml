@@ -75,7 +75,7 @@ jobs:
       - name: Set Output
         id: step-1
         run: |
-          echo "${{ steps.azure-secrets.outputs[env.x] }}"
+          echo "${{ env[env.x] }}"
           echo "$X-1"
           echo "${{ toJSON(needs.setup-matrix.outputs.matrix) }}"
           if [[ ${{ matrix.test-case }} == "case-1" ]]; then

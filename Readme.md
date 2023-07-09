@@ -1,0 +1,1 @@
+<img src="https://atcoder.junah.dev/v1/generate_badge?name=junah" />
